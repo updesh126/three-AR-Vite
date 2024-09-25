@@ -6,11 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy" : "vercel --prod"
   },
   "dependencies": {
     "three": "^0.148.0",
     "three-ar-vite": "file:",
+    "vercel": "^37.5.4",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
   },

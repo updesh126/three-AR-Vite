@@ -1,11 +1,13 @@
 <script setup>
-import { ref, onMounted} from 'vue';
+import { ref, onMounted, onUnmounted} from 'vue';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 import * as THREE from 'three';
 
 let scene = new THREE.Scene();
 
 let canvasRef = ref();
 let renderer;
+let controls;
 
 let boxGeometry = new THREE.BoxGeometry(1,1,1);
 let boxMaterial = new THREE.MeshStandardMaterial({color: "mediumpurple"});
@@ -26,6 +28,26 @@ camera.lookAt( new THREE.Vector3(0,0,0));
 
 scene.add(camera);
 
+// let loop=()=>{
+//     box.rotation.y +=0.02
+//     renderer.render(scene,camera)
+//     requestAnimationFrame(loop)
+// }
+
+let loop=()=>{
+    box.rotation.y +=0.02
+
+    controls.update()
+    renderer.render(scene,camera)
+    // requestAnimationFrame(loop)
+}
+
+let reSizeCallBack = () =>{
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    camera.aspect = window.innerWidth /window.innerHeight
+    camera.updateProjectionMatrix()
+}
+
 onMounted(() => {
     renderer = new THREE.WebGLRenderer({
         canvas: canvasRef.value,
@@ -37,8 +59,20 @@ onMounted(() => {
     renderer.setPixelRatio(window.devicePixelRatio)
 
     renderer.render(scene,camera)
+    renderer.setAnimationLoop(loop)
+    controls = new OrbitControls(camera,canvasRef.value)
+    window.addEventListener('resize', reSizeCallBack)
+
+    // requestAnimationFrame(loop)
+
    
 });
+
+onUnmounted(()=>{
+    renderer.setAnimationLoop(null)
+    window.removeEventListener('resize', reSizeCallBack)
+
+})
 
 </script>
 
