@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted} from 'vue';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
+import {ARButton} from 'three/examples/jsm/webxr/ARButton'
+
 import * as THREE from 'three';
 
 let scene = new THREE.Scene();
@@ -59,7 +61,12 @@ onMounted(() => {
     renderer.setPixelRatio(window.devicePixelRatio)
 
     renderer.render(scene,camera)
+    renderer.xr.enabled = true;
+
     renderer.setAnimationLoop(loop)
+
+    document.body.appendChild(ARButton.createButton(renderer))
+
     controls = new OrbitControls(camera,canvasRef.value)
     window.addEventListener('resize', reSizeCallBack)
 
