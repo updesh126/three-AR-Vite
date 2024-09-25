@@ -10,7 +10,7 @@ let renderer;
 let controls;
 
 let boxGeometry = new THREE.BoxGeometry(1,1,1);
-let boxMaterial = new THREE.MeshStandardMaterial({color: "mediumpurple"});
+let boxMaterial = new THREE.MeshStandardMaterial({color: "red"});
 
 let box = new THREE.Mesh(boxGeometry, boxMaterial);
 box.position.set(0,0,-2);
